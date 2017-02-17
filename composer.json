@@ -1,20 +1,35 @@
 {
-    "name": "hyancat/aliyun-direct-mail",
-    "description": "阿里云邮件推送 for Laravel.",
+    "name": "btccom/aliyun-direct-mail",
+    "description": "阿里云邮件推送 Aliyun Direct Mail for Laravel 5",
+    "keywords": ["laravel", "directmail", "aliyun", "阿里云", "邮件推送"],
     "license": "MIT",
     "authors": [
         {
-            "name": "HyanCat",
-            "email": "hyancat@live.cn"
+            "name": "Tianzhao Li",
+            "email": "tianzhao.li@bitmain.com"
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "~5.0"
+        "php": ">=5.5.0"
+    },
+    "require-dev": {
+        "illuminate/console": "~5",
+        "illuminate/support": "~5",
+        "phpunit/phpunit": "~4.5",
+        "illuminate/mail": "^5.4"
     },
     "autoload": {
         "psr-4": {
-            "HyanCat\\DirectMail\\": "src/"
+            "BTCCOM\\DirectMail\\": "src/",
+            "Dm\\": "src/aliyun-php-sdk-dm/Dm"
+        },
+        "files": [
+            "src/aliyun-php-sdk-dm/aliyun-php-sdk-core/Config.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BTCCOM\\DirectMail\\Test\\": "test/"
         }
     }
 }
