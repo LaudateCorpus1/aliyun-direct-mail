@@ -6,8 +6,6 @@ use Dm\Request\V20151123 as DM;
 use BTCCOM\DirectMail\DirectMailTransport;
 use PHPUnit_Framework_TestCase;
 
-require_once __DIR__ . "/../src/aliyun-php-sdk-dm/aliyun-php-sdk-core/Config.php";
-
 class DirectMailTransportTest extends PHPUnit_Framework_TestCase {
     public function testSingleReceiver() {
         $message = new \Swift_Message('Foo subject', 'Bar body');
@@ -71,7 +69,7 @@ class DirectMailTransportTest extends PHPUnit_Framework_TestCase {
     public function testException() {
         $message = new \Swift_Message('Foo subject', 'Bar body');
         $message->setSender('myself@example.com');
-        $message->setTo('ekousp!@outlook.com');
+        $message->setTo('invalid@example.com');
 
         $directmail_client = $this->getMockBuilder(\DefaultAcsClient::class)
             ->setMethods(['getAcsResponse'])

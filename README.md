@@ -21,17 +21,15 @@
 3. 在 `config/directmail.php` 中根据需要修改配置
 
    ```
-   ...
    'directmail' => [
-   	'app_key'    => env('DIRECT_MAIL_APP_KEY'),
-   	'app_secret' => env('DIRECT_MAIL_APP_SECRET'),
-   	'region'     => 'cn-beijing',
-   	'account'    => [
-   		'alias' => env('DIRECT_MAIL_ACCOUNT_ALIAS'),
-   		'name' => env('DIRECT_MAIL_ACCOUNT_NAME'),
-   	]
-   ],
-   ...
+       'app_key'    => env('DIRECT_MAIL_APP_KEY'),
+       'app_secret' => env('DIRECT_MAIL_APP_SECRET'),
+       'region'     => 'cn-beijing',
+       'account'    => [
+           'alias' => env('DIRECT_MAIL_ACCOUNT_ALIAS'),
+           'name' => env('DIRECT_MAIL_ACCOUNT_NAME'),
+       ]
+   ]
    ```
 
    具体配置含义请参考[官方文档](https://help.aliyun.com/document_detail/29444.html)。
