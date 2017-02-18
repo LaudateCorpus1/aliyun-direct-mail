@@ -14,8 +14,8 @@
 
 2. 发布配置文件
 
-   ```
-   php artisan vendor:publish
+   ```bash
+   php artisan vendor:publish --provider='BTCCOM\DirectMail\AliyunDirectMailServiceProvider'
    ```
 
 3. 在 `config/directmail.php` 中根据需要修改配置

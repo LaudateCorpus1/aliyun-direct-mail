@@ -12,16 +12,16 @@ class AliyunDirectMailServiceProvider extends ServiceProvider {
     }
 
     public function register() {
-        $this->mergeConfigFrom(dirname(__DIR__) . '/config/directmail.php', 'directmail');
+        $this->mergeConfigFrom(__DIR__ . '/config/directmail.php', 'directmail');
 
-        $this->app->singleton('swift.transport', function (TransportManager $transportManager) {
+        $this->app->resolving('swift.transport', function (TransportManager $transportManager) {
             $transportManager->extend('directmail', function () {
                 $config = $this->config();
 
                 $profile = \DefaultProfile::getProfile($config['region'], $config['app_key'], $config['app_secret']);
                 $client = new \DefaultAcsClient($profile);
 
-                return new DirectMailTransport($client, $config['account.name'], $config['account.alias']);
+                return new DirectMailTransport($client, $config['account']['name'], $config['account']['alias']);
             });
         });
     }
