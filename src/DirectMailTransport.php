@@ -34,6 +34,18 @@ class DirectMailTransport extends Transport {
         return 1;
     }
 
+    protected function buildException(\ClientException $e) {
+        if ($e->getErrorCode() === 'InvalidToAddress') {
+            return new InvalidToAddressException($e->getErrorCode(), 400, $e);
+        }
+
+        return new DirectMailException(
+            $e->getErrorCode(),      // errCode 为 API 定义的错误消息字符串
+            400,        // 返回码均为 400
+            $e
+        );
+    }
+
     protected function sendSingle(\Swift_Mime_Message $message) {
         $request = new DM\SingleSendMailRequest();
 
@@ -49,11 +61,7 @@ class DirectMailTransport extends Transport {
         try {
             $this->acs_client->getAcsResponse($request);
         } catch (\ClientException $e) {     // 阿里云错误码定义不合理，ClientException 包含了 ServerException
-            throw new DirectMailException(
-                $e->getErrorCode(),      // errCode 为 API 定义的错误消息字符串
-                400,        // 返回码均为 400
-                $e
-            );
+            throw $this->buildException($e);
         }
 
         return 1;

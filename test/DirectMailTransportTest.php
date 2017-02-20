@@ -66,10 +66,10 @@ class DirectMailTransportTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $result);
     }
 
-    public function testException() {
+    public function testDirectMailException() {
         $message = new \Swift_Message('Foo subject', 'Bar body');
         $message->setSender('myself@example.com');
-        $message->setTo('invalid@example.com');
+        $message->setTo('happy@example.com');
 
         $directmail_client = $this->getMockBuilder(\DefaultAcsClient::class)
             ->setMethods(['getAcsResponse'])
@@ -93,5 +93,34 @@ class DirectMailTransportTest extends PHPUnit_Framework_TestCase {
 
         $this->fail('Transport::send should throw an exception');
     }
+
+    public function testInvalidToAddressException() {
+        $message = new \Swift_Message('Foo subject', 'Bar body');
+        $message->setSender('myself@example.com');
+        $message->setTo('invalid@example.com');
+
+        $directmail_client = $this->getMockBuilder(\DefaultAcsClient::class)
+            ->setMethods(['getAcsResponse'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $directmail_client->expects($this->once())
+            ->method('getAcsResponse')
+            ->willThrowException(new \ServerException('InvalidToAddress', 'code'));
+
+        $transport = new DirectMailTransport($directmail_client, 'noreply@mail.btc.com', 'BTC.com');
+
+        try {
+            $transport->send($message);
+        } catch (DirectMailException $e) {
+            $this->assertEquals('code', $e->getMessage());
+            $this->assertEquals(400, $e->getCode());
+
+            return;
+        }
+
+        $this->fail('Transport::send should throw an exception');
+    }
+
 
 }
