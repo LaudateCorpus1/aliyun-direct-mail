@@ -20,11 +20,11 @@ class DirectMailTransport extends Transport {
     }
 
     /**
-     * @param \Swift_Mime_Message $message
+     * @param \Swift_Mime_SimpleMessage $message
      * @param null $failedRecipients
      * @return int
      */
-    public function send(\Swift_Mime_Message $message, &$failedRecipients = null) {
+    public function send(\Swift_Mime_SimpleMessage $message, &$failedRecipients = null) {
         $this->beforeSendPerformed($message);
 
         $this->sendSingle($message);
@@ -46,7 +46,7 @@ class DirectMailTransport extends Transport {
         );
     }
 
-    protected function sendSingle(\Swift_Mime_Message $message) {
+    protected function sendSingle(\Swift_Mime_SimpleMessage $message) {
         $request = new DM\SingleSendMailRequest();
 
         $request->setAccountName($this->account_name);    //控制台创建的发信地址
@@ -68,7 +68,7 @@ class DirectMailTransport extends Transport {
     }
 
     // 多个地址使用逗号分隔
-    protected function getToAddress(\Swift_Mime_Message $message) {
+    protected function getToAddress(\Swift_Mime_SimpleMessage $message) {
         return join(',', array_keys($message->getTo()));
     }
 }
